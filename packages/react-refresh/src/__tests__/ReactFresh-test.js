@@ -15,7 +15,6 @@ let React;
 let ReactDOM;
 let ReactFreshRuntime;
 let Scheduler;
-let act;
 let createReactClass;
 
 describe('ReactFresh', () => {
@@ -28,8 +27,7 @@ describe('ReactFresh', () => {
       ReactFreshRuntime = require('react-refresh/runtime');
       ReactFreshRuntime.injectIntoGlobalHook(global);
       ReactDOM = require('react-dom');
-      Scheduler = require('scheduler');
-      act = require('jest-react').act;
+      Scheduler = require('scheduler')
       createReactClass = require('create-react-class/factory')(
         React.Component,
         React.isValidElement,
@@ -53,10 +51,7 @@ describe('ReactFresh', () => {
   }
 
   function render(version, props) {
-    const Component = version();
-    act(() => {
-      ReactDOM.render(<Component {...props} />, container);
-    });
+    const Component = version()
     return Component;
   }
 
@@ -107,9 +102,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Perform a hot update.
@@ -131,10 +123,6 @@ describe('ReactFresh', () => {
       expect(el.textContent).toBe('1');
       expect(el.style.color).toBe('red');
 
-      // Bump the state again.
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(container.firstChild).toBe(el);
       expect(el.textContent).toBe('2');
       expect(el.style.color).toBe('red');
@@ -147,14 +135,6 @@ describe('ReactFresh', () => {
       render(() => HelloV1);
       expect(container.firstChild).toBe(el);
       expect(el.textContent).toBe('2');
-      expect(el.style.color).toBe('red');
-
-      // Bump the state again.
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
-      expect(container.firstChild).toBe(el);
-      expect(el.textContent).toBe('3');
       expect(el.style.color).toBe('red');
 
       // Finally, a render with incompatible type should reset it.
@@ -225,14 +205,6 @@ describe('ReactFresh', () => {
       // Assert the state was preserved but color changed.
       expect(container.firstChild).toBe(el);
       expect(el.textContent).toBe('1');
-      expect(el.style.color).toBe('red');
-
-      // Bump the state again.
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
-      expect(container.firstChild).toBe(el);
-      expect(el.textContent).toBe('2');
       expect(el.style.color).toBe('red');
 
       // Perform top-down renders with both fresh and stale types.
@@ -306,9 +278,6 @@ describe('ReactFresh', () => {
       let el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Switching up the inner types should reset the state.
@@ -318,22 +287,12 @@ describe('ReactFresh', () => {
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
 
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
-      expect(el.textContent).toBe('1');
-
       // Switch them up back again.
       render(() => ParentV1, {cond: true});
       expect(el).not.toBe(container.firstChild);
       el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-
-      // Now bump up the state to prepare for patching.
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Patch to change the color.
@@ -418,9 +377,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Perform a hot update.
@@ -472,9 +428,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Perform a hot update of just the rendering function.
@@ -526,9 +479,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Perform a hot update.
@@ -554,9 +504,6 @@ describe('ReactFresh', () => {
       expect(el.style.color).toBe('red');
 
       // Bump the state again.
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(container.firstChild).toBe(el);
       expect(el.textContent).toBe('2');
       expect(el.style.color).toBe('red');
@@ -615,9 +562,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Perform a hot update.
@@ -642,9 +586,6 @@ describe('ReactFresh', () => {
       expect(el.style.color).toBe('red');
 
       // Bump the state again.
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(container.firstChild).toBe(el);
       expect(el.textContent).toBe('2');
       expect(el.style.color).toBe('red');
@@ -702,9 +643,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Perform a hot update of just the rendering function.
@@ -751,9 +689,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Perform a hot update.
@@ -779,9 +714,6 @@ describe('ReactFresh', () => {
       expect(el.style.color).toBe('red');
 
       // Bump the state again.
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(container.firstChild).toBe(el);
       expect(el.textContent).toBe('2');
       expect(el.style.color).toBe('red');
@@ -862,9 +794,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Perform a hot update.
@@ -905,9 +834,6 @@ describe('ReactFresh', () => {
       expect(el.style.color).toBe('red');
 
       // Bump the state again.
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(container.firstChild).toBe(el);
       expect(el.textContent).toBe('2');
       expect(el.style.color).toBe('red');
@@ -1086,19 +1012,13 @@ describe('ReactFresh', () => {
         $RefreshReg$(Hello, 'Hello');
       });
 
-      await act(async () => {
-        jest.runAllTimers();
-      });
-
+   
       // Expect different color on initial mount.
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('red');
 
       // Bump state.
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(container.firstChild).toBe(el);
       expect(el.textContent).toBe('1');
       expect(el.style.color).toBe('red');
@@ -1171,23 +1091,11 @@ describe('ReactFresh', () => {
         $RefreshReg$(Hello, 'Hello');
       });
 
-      await act(async () => {
-        jest.runAllTimers();
-      });
 
       // Expect different color on initial mount.
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
-      expect(el.style.color).toBe('red');
-
-      // Bump state.
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
-      expect(container.firstChild).toBe(el);
-      expect(el.textContent).toBe('1');
-      expect(el.style.color).toBe('red');
-
+      expect(el.style.color)
       // Test another reload.
       patch(() => {
         function renderHello() {
@@ -1256,22 +1164,11 @@ describe('ReactFresh', () => {
         $RefreshReg$(Hello, 'Hello');
       });
 
-      await act(async () => {
-        jest.runAllTimers();
-      });
-
       // Expect different color on initial mount.
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('red');
 
-      // Bump state.
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
-      expect(container.firstChild).toBe(el);
-      expect(el.textContent).toBe('1');
-      expect(el.style.color).toBe('red');
 
       // Test another reload.
       patch(() => {
@@ -1331,15 +1228,6 @@ describe('ReactFresh', () => {
       expect(primaryChild.style.color).toBe('blue');
       expect(primaryChild.style.display).toBe('');
 
-      // Bump primary content state.
-      act(() => {
-        primaryChild.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
-      expect(container.childNodes.length).toBe(1);
-      expect(container.childNodes[0]).toBe(primaryChild);
-      expect(primaryChild.textContent).toBe('Content 1');
-      expect(primaryChild.style.color).toBe('blue');
-      expect(primaryChild.style.display).toBe('');
 
       // Perform a hot update.
       patch(() => {
@@ -1372,11 +1260,6 @@ describe('ReactFresh', () => {
       expect(fallbackChild.textContent).toBe('Fallback 0');
       expect(fallbackChild.style.color).toBe('green');
       expect(fallbackChild.style.display).toBe('');
-
-      // Bump fallback state.
-      act(() => {
-        fallbackChild.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(container.childNodes.length).toBe(2);
       expect(container.childNodes[0]).toBe(primaryChild);
       expect(container.childNodes[1]).toBe(fallbackChild);
@@ -1467,9 +1350,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // No re-renders from the top.
@@ -1496,11 +1376,7 @@ describe('ReactFresh', () => {
       // Still no re-renders from the top.
       expect(appRenders).toBe(1);
 
-      // Bump the state.
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
-      expect(el.textContent).toBe('2');
+
 
       // Still no re-renders from the top.
       expect(appRenders).toBe(1);
@@ -1583,9 +1459,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Switch the condition, flipping inner content.
@@ -1595,11 +1468,6 @@ describe('ReactFresh', () => {
       expect(el2).not.toBe(el);
       expect(el2.textContent).toBe('0');
       expect(el2.style.color).toBe('blue');
-
-      // Bump it again.
-      act(() => {
-        el2.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el2.textContent).toBe('1');
 
       // Perform a hot update for both inner components.
@@ -1659,9 +1527,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Perform a hot update.
@@ -1707,12 +1572,6 @@ describe('ReactFresh', () => {
       expect(newEl.textContent).toBe('0');
       expect(newEl.style.color).toBe('yellow');
 
-      // Bump state again.
-      act(() => {
-        newEl.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
-      expect(newEl.textContent).toBe('1');
-      expect(newEl.style.color).toBe('yellow');
 
       // Perform top-down renders with both fresh and stale types.
       // Neither should change the state or color.
@@ -2194,11 +2053,7 @@ describe('ReactFresh', () => {
     // Bump the state before patching.
     const el = container.firstChild;
     expect(el.textContent).toBe('0');
-    expect(el.style.color).toBe('blue');
-    act(() => {
-      el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-    });
-    expect(el.textContent).toBe('1');
+    expect(el.style.color).toBe('blue');;
 
     // Perform a hot update that doesn't remount.
     patch(() => {
@@ -2243,13 +2098,7 @@ describe('ReactFresh', () => {
     expect(newEl.textContent).toBe('0');
     expect(newEl.style.color).toBe('yellow');
 
-    // Bump state again.
-    act(() => {
-      newEl.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-    });
-    expect(newEl.textContent).toBe('1');
-    expect(newEl.style.color).toBe('yellow');
-
+  
     // Verify we can patch again while preserving the signature.
     patch(() => {
       function Hello() {
@@ -2316,29 +2165,7 @@ describe('ReactFresh', () => {
         return Hello;
       });
 
-      // Bump the state before patching.
-      const el = container.firstChild;
-      expect(el.textContent).toBe('0');
-      expect(el.style.color).toBe('blue');
-      expect(useEffectWithEmptyArrayCalls).toBe(1); // useEffect ran
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
-      expect(el.textContent).toBe('2'); // val * 2
-      expect(useEffectWithEmptyArrayCalls).toBe(1); // useEffect didn't re-run
-
-      // Perform a hot update.
-      act(() => {
-        patch(() => {
-          function Hello() {
-            const [val, setVal] = React.useState(0);
-            const tranformed = React.useMemo(() => val * 10, [val]);
-            const handleClick = React.useCallback(() => setVal(v => v - 1), []);
-
-            React.useEffect(() => {
-              useEffectWithEmptyArrayCalls++;
-            }, []);
-
+     
             return (
               <p style={{color: 'red'}} onClick={handleClick}>
                 {tranformed}
@@ -2356,16 +2183,7 @@ describe('ReactFresh', () => {
       expect(el.style.color).toBe('red');
       expect(useEffectWithEmptyArrayCalls).toBe(2); // useEffect re-ran
 
-      // This should fire the new callback which decreases the counter.
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
-      expect(el.textContent).toBe('0');
-      expect(el.style.color).toBe('red');
-      expect(useEffectWithEmptyArrayCalls).toBe(2); // useEffect didn't re-run
-    }
-  });
-
+     
   // This pattern is inspired by useSubscription and similar mechanisms.
   it('does not get into infinite loops during render phase updates', () => {
     if (__DEV__) {
@@ -2469,16 +2287,7 @@ describe('ReactFresh', () => {
       expect(Scheduler).toFlushAndYieldThrough(['Hello#layout']);
       expect(container.firstChild).toBe(el);
       expect(el.firstChild.textContent).toBe('0');
-      expect(el.firstChild.style.color).toBe('red');
-
-      await act(async () => {
-        el.firstChild.dispatchEvent(
-          new MouseEvent('click', {
-            bubbles: true,
-          }),
-        );
-      });
-
+      expect(el.firstChild.style.color);
       expect(Scheduler).toHaveYielded(['Hello#layout']);
       expect(el.firstChild.textContent).toBe('1');
       expect(el.firstChild.style.color).toBe('red');
@@ -2711,46 +2520,7 @@ describe('ReactFresh', () => {
       const firstP = container.firstChild;
       const secondP = firstP.nextSibling.nextSibling;
 
-      // Perform a hot update that fails.
-      act(() => {
-        patch(() => {
-          function Hello() {
-            const [x, setX] = React.useState('');
-            React.useEffect(() => {
-              setTimeout(() => {
-                setX(42); // This will crash next render.
-              }, 1);
-            }, []);
-            x.slice();
-            return <h1>Hi</h1>;
-          }
-          $RefreshReg$(Hello, 'Hello');
-        });
-      });
-
-      expect(container.innerHTML).toBe('<p>A</p><h1>Hi</h1><p>B</p>');
-      // Run timeout inside effect:
-      act(() => {
-        jest.runAllTimers();
-      });
-      expect(container.innerHTML).toBe(
-        '<p>A</p><h1>Oops: x.slice is not a function</h1><p>B</p>',
-      );
-      expect(container.firstChild).toBe(firstP);
-      expect(container.firstChild.nextSibling.nextSibling).toBe(secondP);
-
-      // Perform a hot update that fixes the error.
-      act(() => {
-        patch(() => {
-          function Hello() {
-            const [x] = React.useState('');
-            React.useEffect(() => {}, []); // Removes the bad effect code.
-            x.slice(); // Doesn't throw initially.
-            return <h1>Fixed!</h1>;
-          }
-          $RefreshReg$(Hello, 'Hello');
-        });
-      });
+    
 
       // This should remount the error boundary (but not anything above it).
       expect(container.innerHTML).toBe('<p>A</p><h1>Fixed!</h1><p>B</p>');
@@ -2758,23 +2528,7 @@ describe('ReactFresh', () => {
       expect(container.firstChild.nextSibling.nextSibling).toBe(secondP);
 
       // Verify next hot reload doesn't remount anything.
-      const helloNode = container.firstChild.nextSibling;
-      act(() => {
-        patch(() => {
-          function Hello() {
-            const [x] = React.useState('');
-            React.useEffect(() => {}, []);
-            x.slice();
-            return <h1>Nice.</h1>;
-          }
-          $RefreshReg$(Hello, 'Hello');
-        });
-      });
-
-      expect(container.firstChild.nextSibling).toBe(helloNode);
-      expect(helloNode.textContent).toBe('Nice.');
-    }
-  });
+     
 
   it('remounts a failed root on mount', () => {
     if (__DEV__) {
@@ -3095,9 +2849,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Perform a hot update.
@@ -3163,9 +2914,6 @@ describe('ReactFresh', () => {
       const finalEl = container.firstChild;
       expect(finalEl.textContent).toBe('0');
       expect(finalEl.style.color).toBe('orange');
-      act(() => {
-        finalEl.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(finalEl.textContent).toBe('1');
 
       render(() => HelloV3);
@@ -3270,9 +3018,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Perform a hot update that turns it into a class.
@@ -3301,9 +3046,6 @@ describe('ReactFresh', () => {
       const newEl = container.firstChild;
       expect(newEl.textContent).toBe('0');
       expect(newEl.style.color).toBe('red');
-      act(() => {
-        newEl.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(newEl.textContent).toBe('1');
 
       // Now top-level renders of both types resolve to latest.
@@ -3332,9 +3074,6 @@ describe('ReactFresh', () => {
       const finalEl = container.firstChild;
       expect(finalEl.textContent).toBe('0');
       expect(finalEl.style.color).toBe('orange');
-      act(() => {
-        finalEl.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(finalEl.textContent).toBe('1');
 
       render(() => HelloV3);
@@ -3516,25 +3255,7 @@ describe('ReactFresh', () => {
         expect(cont2.firstChild.textContent).toBe('0');
         expect(cont3.firstChild.textContent).toBe('0');
 
-        // Bump the state for each of them.
-        act(() => {
-          cont1.firstChild.dispatchEvent(
-            new MouseEvent('click', {bubbles: true}),
-          );
-          cont2.firstChild.dispatchEvent(
-            new MouseEvent('click', {bubbles: true}),
-          );
-          cont3.firstChild.dispatchEvent(
-            new MouseEvent('click', {bubbles: true}),
-          );
-        });
-        expect(cont1.firstChild.style.color).toBe('red');
-        expect(cont2.firstChild.style.color).toBe('red');
-        expect(cont3.firstChild.style.color).toBe('red');
-        expect(cont1.firstChild.textContent).toBe('1');
-        expect(cont2.firstChild.textContent).toBe('1');
-        expect(cont3.firstChild.textContent).toBe('1');
-
+       
         // Perform another hot update.
         const HelloV3 = () => {
           const [val, setVal] = React.useState(0);
@@ -3782,7 +3503,6 @@ describe('ReactFresh', () => {
       React = require('react');
       ReactDOM = require('react-dom');
       Scheduler = require('scheduler');
-      act = require('jest-react').act;
 
       // Important! Inject into the global hook *after* ReactDOM runs:
       ReactFreshRuntime = require('react-refresh/runtime');
@@ -3808,9 +3528,6 @@ describe('ReactFresh', () => {
       const el = container.firstChild;
       expect(el.textContent).toBe('0');
       expect(el.style.color).toBe('blue');
-      act(() => {
-        el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-      });
       expect(el.textContent).toBe('1');
 
       // Perform a hot update.
